@@ -164,7 +164,7 @@ The `manifest.json` must include network access permissions for the WebSocket co
     "allowedDomains": ["none"],
     "reasoning": "Connects to local MCP bridge server via WebSocket",
     "devAllowedDomains": [
-      "ws://localhost:9876"
+      "ws://localhost"
     ]
   }
 }
