@@ -1,0 +1,17 @@
+{
+  "name": "Figma Bridge",
+  "id": "figma-bridge-local-dev",
+  "api": "1.0.0",
+  "main": "code.js",
+  "ui": "ui.html",
+  "capabilities": [],
+  "enableProposedApi": false,
+  "editorType": ["figma"],
+  "networkAccess": {
+    "allowedDomains": ["none"],
+    "reasoning": "Connects to local MCP bridge server via WebSocket",
+    "devAllowedDomains": [
+      "ws://localhost:9876"
+    ]
+  }
+}

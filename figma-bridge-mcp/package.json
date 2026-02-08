@@ -1,0 +1,15 @@
+{
+  "name": "figma-bridge-mcp",
+  "version": "1.0.0",
+  "type": "module",
+  "description": "MCP server that bridges Claude Code to Figma via WebSocket",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "ws": "^8.16.0",
+    "zod": "^3.22.0"
+  }
+}

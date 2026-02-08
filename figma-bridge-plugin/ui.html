@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <style>
+    body {
+      font-family: Inter, system-ui, sans-serif;
+      margin: 0;
+      padding: 16px;
+      background: #1e1e1e;
+      color: #ccc;
+      font-size: 12px;
+    }
+    .status {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 12px;
+    }
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: #666;
+    }
+    .dot.connected { background: #22c55e; }
+    .dot.connecting { background: #fcd34d; }
+    .dot.disconnected { background: #ef4444; }
+    .log {
+      background: #111;
+      border-radius: 6px;
+      padding: 8px;
+      font-family: monospace;
+      font-size: 11px;
+      max-height: 200px;
+      overflow-y: auto;
+      white-space: pre-wrap;
+      word-break: break-all;
+    }
+    .log-entry { margin-bottom: 4px; }
+    .log-entry.error { color: #ef4444; }
+    .log-entry.success { color: #22c55e; }
+    .log-entry.info { color: #60a5fa; }
+  </style>
+</head>
+<body>
+  <div class="status">
+    <div class="dot" id="statusDot"></div>
+    <span id="statusText">Connecting...</span>
+  </div>
+  <div class="log" id="log"></div>
+
+  <script>
+    const WS_URL = "ws://localhost:9876";
+    let ws = null;
+    let reconnectTimer = null;
+
+    function log(msg, type = "") {
+      const el = document.getElementById("log");
+      const entry = document.createElement("div");
+      entry.className = "log-entry " + type;
+      entry.textContent = new Date().toLocaleTimeString() + " " + msg;
+      el.appendChild(entry);
+      el.scrollTop = el.scrollHeight;
+    }
+
+    function setStatus(state) {
+      const dot = document.getElementById("statusDot");
+      const text = document.getElementById("statusText");
+      dot.className = "dot " + state;
+      const labels = { connected: "Connected", connecting: "Connecting...", disconnected: "Disconnected" };
+      text.textContent = labels[state] || state;
+    }
+
+    function connect() {
+      setStatus("connecting");
+      ws = new WebSocket(WS_URL);
+
+      ws.onopen = () => {
+        setStatus("connected");
+        log("Connected to MCP server", "success");
+      };
+
+      ws.onmessage = (event) => {
+        try {
+          const msg = JSON.parse(event.data);
+          log("Received: " + msg.type, "info");
+          // Forward to plugin main thread
+          parent.postMessage({ pluginMessage: msg }, "*");
+        } catch (e) {
+          log("Parse error: " + e.message, "error");
+        }
+      };
+
+      ws.onclose = () => {
+        setStatus("disconnected");
+        log("Disconnected. Retrying in 3s...");
+        ws = null;
+        reconnectTimer = setTimeout(connect, 3000);
+      };
+
+      ws.onerror = (err) => {
+        log("WebSocket error", "error");
+      };
+    }
+
+    // Receive acknowledgments from plugin main thread and send back to MCP server
+    window.onmessage = (event) => {
+      const msg = event.data.pluginMessage;
+      if (msg && msg.type === "ack" && ws && ws.readyState === 1) {
+        ws.send(JSON.stringify(msg));
+        log("Sent ack for request #" + msg.requestId, "success");
+      }
+    };
+
+    connect();
+  </script>
+</body>
+</html>

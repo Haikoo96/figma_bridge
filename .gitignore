@@ -1,0 +1,12 @@
+# Dependencies
+node_modules/
+
+# Personal / project-specific
+pen_files/
+CLAUDE.md
+.claude/
+.mcp.json
+
+# OS files
+.DS_Store
+Thumbs.db
