@@ -164,7 +164,7 @@ The `manifest.json` must include network access permissions for the WebSocket co
     "allowedDomains": ["none"],
     "reasoning": "Connects to local MCP bridge server via WebSocket",
     "devAllowedDomains": [
-      "ws://localhost"
+      "ws://localhost:9876"
     ]
   }
 }
@@ -463,7 +463,7 @@ Figma's plugin sandbox uses an older JavaScript parser. Avoid modern syntax that
 
 **Rules:**
 - Localhost domains go in `devAllowedDomains`, not `allowedDomains`.
-- A scheme is required: use `ws://localhost:9876`, not just `localhost`.
+- A scheme and port are required: use `ws://localhost:9876`, not just `ws://localhost` or `localhost`.
 - Valid schemes: `http://`, `https://`, `ws://`, `wss://`.
 
 ### "Figma plugin is NOT connected" when pushing a design

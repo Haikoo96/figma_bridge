@@ -164,7 +164,7 @@ npm install
     "allowedDomains": ["none"],
     "reasoning": "Connects to local MCP bridge server via WebSocket",
     "devAllowedDomains": [
-      "ws://localhost"
+      "ws://localhost:9876"
     ]
   }
 }
@@ -463,7 +463,7 @@ Figma 플러그인 샌드박스는 구버전 JavaScript 파서를 사용합니�
 
 **규칙:**
 - localhost 도메인은 `allowedDomains`가 아닌 `devAllowedDomains`에 넣으세요.
-- 스킴이 필수입니다: `localhost`가 아닌 `ws://localhost`를 사용하세요.
+- 스킴과 포트가 필수입니다: `localhost`나 `ws://localhost`가 아닌 `ws://localhost:9876`를 사용하세요.
 - 유효한 스킴: `http://`, `https://`, `ws://`, `wss://`.
 
 ### 디자인 푸시 시 "Figma plugin is NOT connected" 오류
