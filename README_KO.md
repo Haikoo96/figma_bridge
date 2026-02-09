@@ -513,3 +513,9 @@ Figma 플러그인 샌드박스는 구버전 JavaScript 파서를 사용합니�
 | Figma 플러그인 UI/네트워크 | `figma-bridge-plugin/ui.html` |
 | WebSocket 포트 | `9876` |
 | 지원 노드 타입 | FRAME, TEXT, RECTANGLE, ELLIPSE, SVG |
+
+---
+
+## 라이선스
+
+[MIT](LICENSE)

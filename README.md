@@ -513,3 +513,9 @@ The plugin falls back to **Inter Regular** if a requested font isn't available i
 | Figma plugin UI/network | `figma-bridge-plugin/ui.html` |
 | WebSocket port | `9876` |
 | Supported node types | FRAME, TEXT, RECTANGLE, ELLIPSE, SVG |
+
+---
+
+## License
+
+[MIT](LICENSE)
